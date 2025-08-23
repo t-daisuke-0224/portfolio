@@ -2,8 +2,39 @@
 <html lang="ja" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio</title>
+    <!-- モバイル優先 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="高津制作室｜アイデアを伝わる形に。Web制作・コンテンツ設計・映像編集のご相談はお気軽に。"
+    />
+    <!-- Favicon (temporary SVG data URI) -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect rx='12' width='64' height='64' fill='%23d97706'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-size='36' font-family='Noto Sans JP, sans-serif' fill='white'%3E%E9%AB%99%3C/text%3E%3C/svg%3E"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://placehold.co/512x512/d97706/ffffff/png?text=%E9%AB%99"
+      sizes="192x192"
+    />
+
+    <!-- Open Graph / Twitter (minimum) -->
+    <meta property="og:title" content="髙津制作室 | アイデアを、伝わる形に" />
+    <meta
+      property="og:description"
+      content="高津制作室｜アイデアを伝わる形に。Web制作・コンテンツ設計・映像編集のご相談はお気軽に。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="高津制作室" />
+    <meta
+      property="og:image"
+      content="https://placehold.co/1200x630/e7e5e4/292524/jpg?text=%E9%AB%99%E6%B4%A5%E5%88%B6%E4%BD%9C%E5%AE%A4"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>髙津制作室 | アイデアを、伝わる形に</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,33 +42,18 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto:wght@700&display=swap"
       rel="stylesheet"
     />
-    <!-- Chosen Palette: Warm Neutrals (Background: #F5F5F4, Text: #292524, Accent: #D97706) -->
-    <!-- Application Structure Plan: A single-page, vertically scrolling application with a fixed navigation bar. This structure allows for a linear, story-like user flow. The most critical interaction is the modal window for the 'Works' section. This presents detailed project information, including the thought process, without cluttering the main page. This approach enhances user focus and encourages exploration of the work itself, which is the core of the portfolio. -->
-    <!-- Visualization & Content Choices: Report Info -> Goal -> Viz/Presentation Method -> Interaction -> Justification. 
-        1. Cover Page -> Impress -> Hero Section with bold typography -> None -> A strong first impression is key.
-        2. About Me -> Build Trust -> Multi-column layout with icons -> None -> Organizes diverse information (vision, skills, profile) clearly.
-        3. Works -> Showcase Skill -> Interactive Cards & Modal -> Click to open modal -> This interactively reveals the "Why, Who, How" of a project, demonstrating deep thinking without overwhelming the user upfront.
-        4. For Business -> Show Professionalism -> CSS-based process diagram -> None -> Visually explains the workflow, which builds client confidence.
-        5. My Tools -> Justify Methods -> Simple icon+text layout -> None -> Clearly communicates the creator's practical and flexible approach.
-        No charts (Chart.js) were used as the source report is a qualitative plan, not a data-driven document. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- 最小限のカスタム -->
     <style>
       body {
         font-family: "Noto Sans JP", sans-serif;
-        background-color: #f5f5f4; /* stone-100 */
-        color: #292524; /* stone-800 */
+        background-color: #f5f5f4;
+        color: #292524;
       }
       .font-roboto {
         font-family: "Roboto", sans-serif;
       }
-      .accent-color {
-        color: #d97706; /* amber-600 */
-      }
       .bg-accent {
-        background-color: #d97706; /* amber-600 */
-      }
-      .border-accent {
-        border-color: #d97706; /* amber-600 */
+        background-color: #d97706;
       }
       .modal-backdrop {
         background-color: rgba(0, 0, 0, 0.75);
@@ -45,80 +61,219 @@
       .modal {
         transition: opacity 0.3s ease, transform 0.3s ease;
       }
+      /* iOS/Androidのアドレスバーで100vhが縮む問題の余白補正 */
+      .modal {
+        padding-top: calc(env(safe-area-inset-top, 0px) + 16px);
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+      }
       .modal-content {
-        max-height: 90vh;
+        max-height: 90dvh;
+        overflow-y: auto; /* ensure the inner panel scrolls */
+        -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+        overscroll-behavior: contain; /* avoid body scroll chaining */
+        touch-action: pan-y; /* ensure vertical pan works */
       }
-      /* Only apply to .card images with log.png in src */
-      .card img[src*="log.png"] {
-        width: 128px;
-        height: auto;
+      /* --- Modal: unified typography & spacing --- */
+      .modal-content h3 {
+        line-height: 1.3;
       }
-      /* Font weight consistency */
+      .modal-content h4 {
+        font-weight: 700;
+        border-bottom: 2px solid #f59e0b; /* amber-500 */
+        padding-bottom: 0.25rem; /* pb-1 */
+        margin-bottom: 0.5rem; /* mb-2 */
+      }
+      .modal-content p {
+        line-height: 1.9; /* easier reading */
+      }
+      .modal-content .text-sm {
+        font-size: 0.95rem; /* 少しだけ大きくして読みやすく */
+        line-height: 1.85;
+      }
+      .modal-content ul {
+        margin-top: 0.25rem;
+        padding-left: 1.25rem; /* list-insideの代替で確実に字下げ */
+        list-style: disc;
+      }
+      .modal-content li + li {
+        margin-top: 0.25rem; /* 箇条書き間の最小余白を統一 */
+      }
+      .modal-content .section {
+        margin-top: 1.25rem; /* 各セクションの間隔を統一 */
+      }
+      /* PC/大画面では段落の前後余白をやや増やす */
+      @media (min-width: 768px) {
+        .modal-content p {
+          line-height: 1.95;
+        }
+        .modal-content .text-sm {
+          line-height: 1.9;
+        }
+        .modal-content .section {
+          margin-top: 1.5rem;
+        }
+      }
+      /* 太字整合 */
       h1,
       h2,
       h3,
       h4,
       .font-bold {
         font-weight: 700;
-      } /* Bold */
+      }
       p,
       a,
       li,
       span {
         font-weight: 400;
-      } /* Regular */
+      }
+      /* Hero内のspanは親の太さを継承（h1内） */
+      #hero h1 span {
+        font-weight: inherit;
+      }
       .font-medium {
         font-weight: 500;
-      } /* Medium for specific elements like nav links */
+      }
       .font-bold {
         font-weight: 700 !important;
-      } /* Override for buttons etc. */
+      }
+      /* 全角文字でも半角スペース相当の字間にする（均等化） */
+      .track-half {
+        letter-spacing: 0.5em !important;
+        font-kerning: none;
+      }
+
+      /* 見出しの字間：SP は控えめ、PC は半角スペース感を強める */
+      .hero-heading {
+        letter-spacing: 0.14em;
+        font-kerning: none;
+      }
+      @media (min-width: 768px) {
+        .hero-heading {
+          letter-spacing: 0.2em;
+        }
+      }
+      @media (min-width: 1536px) {
+        .hero-heading {
+          letter-spacing: 0.22em;
+        }
+      }
+
+      /* 句読点はトラッキングを無効化し、左右を等間隔に */
+      .punct {
+        letter-spacing: 0; /* 句読点にトラッキングを掛けない */
+        margin-inline: 0.5ch; /* 視覚的に半角相当 */
+      }
+      /* 「、」の右側をやや広めにして視覚バランスを取る */
+      .punct-comma {
+        margin-left: -0.6ch; /* 左はやや控えめ */
+        margin-right: -1ch; /* 右を広めに */
+      }
+
+      @media (max-width: 767.98px) {
+        .track-half {
+          letter-spacing: 0.45em !important;
+        }
+        .hero-heading {
+          letter-spacing: 0.18em;
+        }
+        #hero h1 {
+          line-height: 1.06;
+        }
+        #hero h1 {
+          padding-block: calc(var(--hero-h1-mobile) / 2);
+        }
+        /* ヒーロー見出し：SPで改行位置の上下に半行ぶんの余白を付与（HTMLはそのまま） */
+        #hero h1 br {
+          /* brは使わず、spanをブロック化して制御 */
+          display: none;
+        }
+        #hero h1 span.inline {
+          /* 2つのspanを行化 */
+          display: block;
+        }
+        #hero h1 span.inline:last-of-type {
+          /* 2行目の頭に半行ぶんの余白（間に句読点spanがあっても確実に適用） */
+          margin-top: calc(var(--hero-h1-mobile) / 2);
+        }
+        #hero p {
+          line-height: 1.6;
+        }
+        .hero-gap {
+          margin-top: calc(var(--hero-h1-mobile) * 0.9);
+        }
+        #hero h1 {
+          font-weight: 800 !important; /* モバイルだけ太字強化（.font-boldの!importantに勝つ） */
+        }
+        #hero {
+          margin-top: -52px; /* モバイルだけ全体を約7mm上に押し上げる */
+        }
+      }
+      /* Hero専用：見出しサイズを変数化し、同値の縦余白を与える */
+      :root {
+        /* 見出しのサイズは画面に応じて伸びすぎないよう clamp で制御 */
+        --hero-h1-mobile: clamp(32px, 10vw, 48px); /* SP: 32〜48px */
+        --hero-h1-desktop: clamp(56px, 5.8vw, 96px); /* PC: 56〜96px */
+      }
+      #hero h1 {
+        font-size: var(--hero-h1-mobile);
+      }
+      @media (min-width: 768px) {
+        #hero h1 {
+          font-size: var(--hero-h1-desktop);
+        }
+      }
+      /* Hero: モバイルは palt 有効で横幅節約、PC は palt 無効で半角空きの印象を確保 */
+      #hero h1 {
+        font-feature-settings: "palt" 1;
+      }
+      @media (min-width: 768px) {
+        #hero h1 {
+          font-feature-settings: "palt" 0;
+        }
+      }
+      /* h1サイズと同じだけ上下間隔を取る（行間＝半角スペースの印象を維持） */
+      .hero-gap {
+        margin-top: var(--hero-h1-mobile);
+      }
+      @media (min-width: 768px) {
+        .hero-gap {
+          margin-top: var(--hero-h1-desktop);
+        }
+      }
+
+      /* Hero見出しをPCだけ少し右へずらす（センター基準のまま微調整） */
+      .hero-nudge {
+        transform: none; /* モバイルはセンターのまま */
+      }
+      @media (min-width: 1024px) {
+        .hero-nudge {
+          /* PCはさらに左へ約5mm（~20px）寄せる。画面幅に応じて -20px〜-48px の範囲で可変 */
+          transform: translateX(clamp(-68px, -2.8vw, -40px));
+        }
+      }
+      /* --- PCだけ見出しを少し軽く（スマホの強さは維持） --- */
+      @media (min-width: 1024px) {
+        #hero h1 {
+          font-weight: 400 !important; /* PC/タブレット横向き以上ではさらに軽めに */
+        }
+      }
     </style>
   </head>
   <body class="antialiased">
-    <!-- Header & Navigation -->
+    <!-- ヘッダー（固定1箇所のみ） -->
     <header
       id="header"
       class="bg-stone-100/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm"
     >
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-          <div class="text-xl font-bold tracking-wider">
-            <a href="#hero" class="hover:text-amber-600 transition-colors"
-              >Daisuke Takaku</a
-            >
-          </div>
-          <nav class="hidden md:flex items-center space-x-8">
-            <a
-              href="#about"
-              class="text-sm font-medium text-stone-600 hover:text-amber-600 transition-colors"
-              >私について</a
-            >
-            <a
-              href="#works"
-              class="text-sm font-medium text-stone-600 hover:text-amber-600 transition-colors"
-              >制作実績</a
-            >
-            <a
-              href="#business"
-              class="text-sm font-medium text-stone-600 hover:text-amber-600 transition-colors"
-              >お仕事について</a
-            >
-            <a
-              href="#tools"
-              class="text-sm font-medium text-stone-600 hover:text-amber-600 transition-colors"
-              >制作環境</a
-            >
-            <a
-              href="#contact"
-              class="text-sm font-bold bg-accent text-white px-4 py-2 rounded-md hover:bg-amber-700 transition-colors"
-              >お問い合わせ</a
-            >
-          </nav>
           <div class="md:hidden">
             <button
               id="mobile-menu-button"
-              class="text-stone-800 focus:outline-none"
+              class="p-3 -ml-2 text-stone-800 focus:outline-none"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
             >
               <svg
                 class="w-6 h-6"
@@ -126,75 +281,152 @@
                 stroke="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
               >
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M4 6h16M4 12h16m-4 6h4"
+                  d="M3 6h18M3 12h18M3 18h18"
                 ></path>
               </svg>
             </button>
           </div>
+          <div class="text-xl font-bold tracking-wider">
+            <a
+              href="#hero"
+              class="hover:text-amber-600 transition-colors"
+              aria-label="高津制作室"
+              >高津制作室</a
+            >
+          </div>
+          <nav class="hidden md:flex items-center space-x-8">
+            <a
+              href="#about"
+              class="text-sm font-medium text-stone-600 hover:text-amber-600 transition-colors py-2"
+              >私について</a
+            >
+            <a
+              href="#works"
+              class="text-sm font-medium text-stone-600 hover:text-amber-600 transition-colors py-2"
+              >プロジェクト</a
+            >
+            <a
+              href="#business"
+              class="text-sm font-medium text-stone-600 hover:text-amber-600 transition-colors py-2"
+              >サービスと料金</a
+            >
+            <a
+              href="#tools"
+              class="text-sm font-medium text-stone-600 hover:text-amber-600 transition-colors py-2"
+              >制作環境</a
+            >
+            <a
+              href="#contact"
+              class="text-sm font-bold bg-accent text-white px-4 py-2 rounded-md hover:bg-amber-700 transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-100"
+              >お問い合わせ</a
+            >
+          </nav>
         </div>
       </div>
-      <!-- Mobile Menu -->
+      <!-- モバイルメニュー：44px以上のタップ領域 -->
       <div id="mobile-menu" class="hidden md:hidden">
         <a
           href="#about"
-          class="block py-2 px-4 text-sm text-stone-600 hover:bg-stone-200"
+          class="block py-3 px-4 text-base text-stone-700 hover:bg-stone-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
           >私について</a
         >
         <a
           href="#works"
-          class="block py-2 px-4 text-sm text-stone-600 hover:bg-stone-200"
-          >制作実績</a
+          class="block py-3 px-4 text-base text-stone-700 hover:bg-stone-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
+          >プロジェクト</a
         >
         <a
           href="#business"
-          class="block py-2 px-4 text-sm text-stone-600 hover:bg-stone-200"
-          >お仕事について</a
+          class="block py-3 px-4 text-base text-stone-700 hover:bg-stone-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
+          >サービスと料金</a
         >
         <a
           href="#tools"
-          class="block py-2 px-4 text-sm text-stone-600 hover:bg-stone-200"
+          class="block py-3 px-4 text-base text-stone-700 hover:bg-stone-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
           >制作環境</a
         >
         <a
           href="#contact"
-          class="block py-2 px-4 text-sm text-stone-600 hover:bg-stone-200"
+          class="block py-3 px-4 text-base text-stone-700 hover:bg-stone-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
           >お問い合わせ</a
         >
       </div>
     </header>
 
     <main>
-      <!-- 1. Hero Section (Cover Page) -->
+      <!-- 1. ヒーロー -->
       <section
         id="hero"
-        class="min-h-screen flex items-center bg-stone-100 pt-16"
+        class="min-h-screen flex items-center bg-stone-100 pt-24 md:pt-20 scroll-mt-16 md:scroll-mt-20"
       >
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1
-            class="text-4xl md:text-6xl font-bold text-stone-900 leading-tight"
+            class="mb-0 font-bold text-stone-900 leading-[1.04] whitespace-normal md:whitespace-nowrap hero-heading hero-nudge max-w-[1100px] mx-auto"
           >
-            価値を形にし、<br class="md:hidden" />物語を届ける。
+            <span class="inline">アイデアを</span>
+            <br class="md:hidden" />
+            <span class="punct punct-comma hidden md:inline">、</span>
+            <span class="inline">伝わる形に</span>
           </h1>
-          <p class="mt-4 text-lg md:text-xl text-stone-600">
-            コンテンツクリエイター / Web サイト制作者 / ビデオエディター
+          <p
+            class="hero-gap text-lg md:text-2xl font-bold text-stone-700 track-half"
+            style="font-feature-settings: 'palt' 1"
+          >
+            コンテンツ設計／映像編集・構成
           </p>
-          <div class="mt-8">
+          <div
+            class="hero-gap flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center sm:gap-4"
+          >
+            <!-- 主要CTA：相談する -->
             <a
-              href="#works"
-              class="bg-accent text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-amber-700 transition-transform transform hover:scale-105"
-              >実績を見る</a
+              href="#contact"
+              class="bg-accent text-white font-bold py-4 px-8 rounded-lg text-lg hover:bg-amber-700 transition-transform transform hover:scale-105 text-center focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-500/40"
+              aria-label="お問い合わせセクションへ移動"
+              title="お問い合わせ"
             >
+              お問い合わせ
+            </a>
+            <!-- 副次CTA：サービスと料金 -->
+            <a
+              href="#business"
+              class="bg-white text-stone-800 font-bold py-4 px-8 rounded-lg text-lg border-2 border-stone-800 hover:bg-stone-100 hover:text-amber-600 hover:border-amber-600 transition-colors transform hover:scale-105 text-center focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-500/30"
+              aria-label="サービスと料金セクションへ移動"
+            >
+              サービスと料金
+            </a>
           </div>
         </div>
       </section>
 
-      <!-- 3. About Me Section -->
-      <section id="about" class="py-20 lg:py-32">
+      <!-- Trust Snippet：営業の安心感（Hero直下） -->
+      <section
+        aria-label="信頼情報"
+        class="bg-white/70 border-y border-stone-200"
+      >
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <ul class="grid grid-cols-1 gap-3 text-center md:grid-cols-3">
+            <li class="text-stone-800">
+              <span class="font-bold">見積もり無料</span> 目的に合わせてご提案
+            </li>
+            <li class="text-stone-800">
+              <span class="font-bold">モバイル最適化</span>を標準対応
+            </li>
+            <li class="text-stone-800">
+              <span class="font-bold">目安納期</span>
+              ランディングページは1〜2週間
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 3. About -->
+      <section id="about" class="py-20 lg:py-32 scroll-mt-16 md:scroll-mt-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-16">
             <h2 class="text-3xl font-bold text-stone-900">私について</h2>
@@ -206,65 +438,127 @@
               <img
                 src="assets/images/profile.jpg"
                 alt="プロフィール写真"
-                class="rounded-full w-48 h-48 md:w-full md:h-auto md:max-w-xs object-cover shadow-md"
+                class="rounded-full w-36 h-36 md:w-full md:h-auto md:max-w-xs object-cover shadow-md"
+                loading="lazy"
+                decoding="async"
                 onerror="this.onerror=null;this.src='https://placehold.co/240x240/e7e5e4/292524?text=Profile';"
               />
             </div>
             <div class="md:col-span-2 mt-8 md:mt-0">
               <h3 class="text-2xl font-bold mb-5">コンセプト</h3>
               <p class="text-stone-700 mb-12 leading-relaxed">
-                「伝えるべき情報を、正確に、伝わる形で届ける」<br />
-                現場で培った伝える力を活かし、複雑な内容でもわかりやすく整理・構成。視聴者に“伝わる”ことを最優先にした設計を重視し、コンテンツづくりを追求します。
+                デザインとテクノロジーをつなぎ、伝わる形に整えます。<br />
+                目的・予算・スケジュールを踏まえて無理のない進め方をご提案し、最後まで伴走します。<br />
+                <br />
               </p>
               <h4 class="text-2xl font-bold mb-5">提供できる価値</h4>
               <ul
                 class="list-disc list-inside text-stone-700 space-y-3 leading-relaxed"
               >
+                <li>企画〜制作〜公開までを目的達成から逆算して設計します</li>
+                <li>わかりやすい文章構成と図解で伝わりやすくします</li>
                 <li>
-                  制作・企画・伝達すべてを「相手に届けるための導線」として設計できる視点
+                  現場のサポート経験を活かし専門内容もかみ砕いて説明します
                 </li>
-                <li>説得力のある文章構成（AI活用 × ユーザー視点）</li>
-                <li>テクニカルサポート経験を活かした「かみ砕いて伝える力」</li>
-                <li>フィードバックを活かした改善サイクルの設計</li>
-                <li>配信／編集の見られ方を意識した設計力</li>
-                <li>編集者視点でのインタビュー映像の構成・編集</li>
-                <li>海外視聴者を意識した配信構成・タイトル設計</li>
+                <li>フィードバックをもとに段階的に改善します</li>
+                <li>配信・編集は視聴体験を意識して最適化します</li>
+                <li>海外向け配信は英語併記や検索対策まで対応します</li>
               </ul>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 4. Works Section -->
-      <section id="works" class="py-20 lg:py-32 bg-stone-200">
+      <!-- 4. Works（画像の固定高さを廃止しアスペクト比指定） -->
+      <section
+        id="works"
+        class="py-20 lg:py-32 bg-stone-200 scroll-mt-16 md:scroll-mt-20"
+      >
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-stone-900">制作実績</h2>
+            <h2 class="text-3xl font-bold text-stone-900">プロジェクト</h2>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Project Card 1: Placeholder -->
+            <!-- Card 1（テクニカルサポート ナレッジ化・匿名案件） -->
             <div
               class="bg-stone-100 rounded-lg shadow-lg overflow-hidden group relative"
             >
               <img
+                src="https://placehold.co/600x338/0ea5e9/ffffff?text=Knowledge+Base"
+                alt="テクニカルサポート ナレッジ化（匿名）"
+                class="w-full aspect-[16/9] h-auto object-cover md:group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">ナレッジ化・運用改善</h3>
+                <p class="text-stone-600 mb-4 text-sm">
+                  機器を検証・撮影し、手順を記事化。検索しやすい構成とタグ設計で、誰でも迷わず使えるナレッジを整備しました。
+                </p>
+                <button
+                  onclick="openModal('asurionProject')"
+                  class="w-full bg-stone-800 text-white font-bold py-3 px-4 rounded-md hover:bg-white hover:text-amber-600 border-2 border-transparent hover:border-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
+                  aria-label="テクニカルサポートのナレッジ化 詳細を開く"
+                >
+                  詳細を見る
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div
+              class="bg-stone-100 rounded-lg shadow-lg overflow-hidden group relative"
+            >
+              <span
+                class="absolute top-3 right-3 bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow"
+                >企画中</span
+              >
+              <img
+                src="assets/images/visual.png"
+                alt="インタビュー配信企画"
+                class="w-full aspect-[16/9] h-auto object-cover md:group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+                decoding="async"
+                onerror="this.onerror=null;this.src='https://placehold.co/600x338/3b82f6/ffffff?text=Project+Visual';"
+              />
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">海外向け配信企画</h3>
+                <p class="text-stone-600 mb-4 text-sm">
+                  観光ガイドでは伝わらない日本の空気感を、リアルタイム配信で海外へ届ける企画です。
+                </p>
+                <button
+                  onclick="openModal('twitchProject')"
+                  class="w-full bg-stone-800 text-white font-bold py-3 px-4 rounded-md hover:bg-white hover:text-amber-600 border-2 border-transparent hover:border-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
+                >
+                  詳細を見る
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 3 (LOG. / The Quiet City, previously Card 1) -->
+            <div
+              class="bg-stone-100 rounded-lg shadow-lg overflow-hidden group relative card"
+            >
+              <img
                 src="assets/images/log.png"
                 alt="LOG. / The Quiet City"
-                class="w-full h-48 object-cover md:group-hover:scale-105 transition-transform duration-300"
-                onerror="this.onerror=null;this.src='https://placehold.co/600x400/3b82f6/ffffff?text=Project+Visual';"
+                class="w-full aspect-[16/9] h-auto object-cover md:group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+                decoding="async"
+                onerror="this.onerror=null;this.src='https://placehold.co/600x338/3b82f6/ffffff?text=Project+Visual';"
               />
               <div class="p-6">
                 <h3 class="text-xl font-bold mb-2">LOG. / The Quiet City</h3>
-                <p class="text-stone-600 mb-4 text-sm h-10">
-                  街に生まれる「静寂」をテーマに、日常の中で見落とされがちな瞬間を切り取る写真企画です。
+                <p class="text-stone-600 mb-4 text-sm">
+                  都市の「静けさ」を切り取る写真コンセプトワークです。
                 </p>
                 <a
                   href="https://t-daisuke-0224.github.io/log-the-quiet-city/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="w-full bg-stone-800 text-white font-bold py-2 px-4 rounded-md hover:bg-white hover:text-amber-600 border-2 border-transparent hover:border-amber-600 transition-colors inline-flex items-center justify-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
+                  class="w-full bg-stone-800 text-white font-bold py-3 px-4 rounded-md hover:bg-white hover:text-amber-600 border-2 border-transparent hover:border-amber-600 transition-colors inline-flex items-center justify-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
                 >
                   <span class="font-bold tracking-wide">サイトを見る</span>
-                  <!-- Heroicons: Arrow Top Right On Square (outline) -->
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -272,6 +566,7 @@
                     stroke="currentColor"
                     stroke-width="2"
                     class="w-4 h-4"
+                    aria-hidden="true"
                   >
                     <path
                       stroke-linecap="round"
@@ -287,121 +582,70 @@
                 </a>
               </div>
             </div>
-
-            <!-- Project Card 2: Video Project -->
-            <div
-              class="bg-stone-100 rounded-lg shadow-lg overflow-hidden group relative"
-            >
-              <span
-                class="absolute top-3 right-3 bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow"
-                >企画中</span
-              >
-              <img
-                src="assets/images/visual.png"
-                alt="インタビュー配信企画"
-                class="w-full h-48 object-cover md:group-hover:scale-105 transition-transform duration-300"
-                onerror="this.onerror=null;this.src='https://placehold.co/600x400/3b82f6/ffffff?text=Project+Visual';"
-              />
-              <div class="p-6">
-                <h3 class="text-xl font-bold mb-2">
-                  海外向けインタビュー配信企画
-                </h3>
-                <p class="text-stone-600 mb-4 text-sm h-10">
-                  観光ガイドでは伝わらない日本の空気感を海外へお届けするライブ配信企画です。
-                </p>
-                <button
-                  onclick="openModal('twitchProject')"
-                  class="w-full bg-stone-800 text-white font-bold py-2 px-4 rounded-md hover:bg-white hover:text-amber-600 border-2 border-transparent hover:border-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
-                >
-                  詳細を見る
-                </button>
-              </div>
-            </div>
-
-            <!-- Project Card 3: Placeholder -->
-            <div
-              class="bg-stone-100 rounded-lg shadow-lg overflow-hidden group relative"
-            >
-              <img
-                src="https://placehold.co/600x400/e5e7eb/a8a29e?text=Coming+Soon"
-                alt="制作実績 3"
-                class="w-full h-48 object-cover md:group-hover:scale-105 transition-transform duration-300"
-              />
-              <div class="p-6">
-                <h3 class="text-xl font-bold mb-2">制作実績 3</h3>
-                <p class="text-stone-600 mb-4 text-sm h-10">
-                  ここにプロジェクトの概要が入ります。現在準備中です。
-                </p>
-                <button
-                  class="w-full bg-stone-300 text-stone-500 font-bold py-2 px-4 rounded-md cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
-                >
-                  詳細を見る
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      <!-- 5. For Business Section -->
-      <section id="business" class="py-20 lg:py-32">
+      <!-- 5. Business -->
+      <section
+        id="business"
+        class="py-20 lg:py-32 scroll-mt-16 md:scroll-mt-20"
+      >
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-stone-900">お仕事について</h2>
+            <h2 class="text-3xl font-bold text-stone-900">サービスと料金</h2>
           </div>
 
           <div class="max-w-5xl mx-auto">
             <h3 class="text-2xl font-bold text-center mb-4">
               提供できる制作内容
             </h3>
-            <p class="text-center text-stone-600 mb-12 max-w-2xl mx-auto">
-              提供している主な制作プランの概要です。内容や規模に合わせて柔軟に対応いたします。<br />まずはお気軽にご相談ください。
+            <p class="text-stone-600 mb-12 max-w-2xl mx-auto">
+              提供している主な制作プランの概要です。内容や規模に合わせて柔軟に対応いたします。まずはお気軽にご相談ください。<br />※価格は税込みの目安です。
             </p>
 
-            <!-- Main Services Grid -->
+            <!-- メインサービス -->
             <div
               class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
             >
-              <!-- LP Card -->
               <div
                 class="bg-white p-6 rounded-lg shadow-md border-t-4 border-amber-600 flex flex-col"
               >
-                <h4 class="text-xl font-bold mb-2">ランディングページ (LP)</h4>
+                <h4 class="text-xl font-bold mb-2">ランディングページ</h4>
                 <p class="text-sm text-stone-600 mb-4 flex-grow">
-                  特定の目的に特化した単一ページの Web サイト（例：キャンペーン告知、サービス紹介）。
+                  特定の目的に特化した単一ページのWebサイト（例：キャンペーン告知、サービス紹介）。
                 </p>
                 <ul class="text-sm space-y-2 text-stone-800 mt-auto">
                   <li>
                     <span class="font-semibold text-stone-600">費用目安：</span
-                    >8〜15 万円
+                    >8〜15万円
                   </li>
                   <li>
                     <span class="font-semibold text-stone-600">制作期間：</span
-                    >1〜2 週間（要件確定・素材支給後の目安）
+                    >1〜2週間（要件確定・素材支給後の目安）
                   </li>
                   <li class="mt-2 pt-2 border-t border-stone-200">
                     <span class="font-semibold text-stone-600">対応範囲：</span
-                    >企画設計 ＋ デザイン ＋ コーディング＋簡易 SEO ＋ 公開
+                    >企画設計＋デザイン＋コーディング＋簡易SEO＋公開
                   </li>
                   <li>
                     <span class="font-semibold text-stone-600">修正対応：</span
-                    >公開から 1 ヶ月までの微修正無料 ＋ 初回限定割引あり
+                    >公開から1ヶ月までの微修正無料＋初回限定割引あり
                   </li>
                 </ul>
               </div>
 
-              <!-- Corporate Site Card -->
               <div
                 class="bg-white p-6 rounded-lg shadow-md border-t-4 border-amber-600 flex flex-col"
               >
                 <h4 class="text-xl font-bold mb-2">コーポレートサイト</h4>
                 <p class="text-sm text-stone-600 mb-4 flex-grow">
-                  企業の顔となる公式サイト（TOP ＋ 下層 5〜10 ページ）。
+                  企業の顔となる公式サイト（TOP＋下層5〜10ページ）。
                 </p>
                 <ul class="text-sm space-y-2 text-stone-800 mt-auto">
                   <li>
                     <span class="font-semibold text-stone-600">費用目安：</span
-                    >25〜55 万円
+                    >25〜55万円
                   </li>
                   <li>
                     <span class="font-semibold text-stone-600">制作期間：</span
@@ -409,7 +653,7 @@
                   </li>
                   <li class="mt-2 pt-2 border-t border-stone-200">
                     <span class="font-semibold text-stone-600">対応範囲：</span
-                    >設計 ＋ デザイン ＋ コーディング ＋ SEO 内部最適化 ＋ フォーム設置＋公開
+                    >設計＋デザイン＋コーディング＋SEO内部最適化＋フォーム設置＋公開
                   </li>
                   <li>
                     <span class="font-semibold text-stone-600">管理費用：</span
@@ -418,56 +662,56 @@
                 </ul>
               </div>
 
-              <!-- Brand Site Card -->
               <div
                 class="bg-white p-6 rounded-lg shadow-md border-t-4 border-amber-600 flex flex-col"
               >
                 <h4 class="text-xl font-bold mb-2">サービス／ブランドサイト</h4>
                 <p class="text-sm text-stone-600 mb-4 flex-grow">
-                  商品やサービスの魅力を伝えるためのサイト（TOP ＋ 下層 3〜5 ページ）。
+                  商品やサービスの魅力を伝えるためのサイト（TOP＋下層3〜5ページ）。
                 </p>
                 <ul class="text-sm space-y-2 text-stone-800 mt-auto">
                   <li>
                     <span class="font-semibold text-stone-600">費用目安：</span
-                    >18〜40 万円
+                    >18〜40万円
                   </li>
                   <li>
                     <span class="font-semibold text-stone-600">制作期間：</span
-                    >2〜4 週間（要件確定・素材支給後の目安）
+                    >2〜4週間（要件確定・素材支給後の目安）
                   </li>
                   <li class="mt-2 pt-2 border-t border-stone-200">
                     <span class="font-semibold text-stone-600">対応範囲：</span
-                    >ビジュアル強化 ＋ 導線設計 ＋ SNS 連携 ＋ モバイル最適化
+                    >ビジュアル強化＋導線設計＋SNS連携＋モバイル最適化
                   </li>
                   <li>
                     <span class="font-semibold text-stone-600">修正対応：</span
-                    >公開から 1 ヶ月までの微修正無料
+                    >公開から1ヶ月までの微修正無料
                   </li>
                 </ul>
               </div>
             </div>
 
-            <!-- Common Options & Other Services -->
+            <!-- 共通オプション -->
             <div class="bg-stone-200/60 p-8 rounded-lg">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                 <div>
                   <h4 class="text-xl font-bold mb-4">共通オプション</h4>
                   <ul class="list-disc list-inside text-stone-700 space-y-2">
-                    <li>・SEO 対策（内部施策・構造整理など）：+ 1 万円〜</li>
-                    <li>・スマホ対応（レスポンシブデザイン）：標準対応</li>
+                    <li>SEO対策（内部施策・構造整理など）：+1万円〜</li>
+                    <li>スマホ対応（レスポンシブデザイン）：標準対応</li>
                     <li>
-                      ・ドメイン・サーバー取得代行：初期費用 3,000 円〜（更新費別途）
+                      ドメイン・サーバー取得代行：初期費用3,000円〜（更新費別途）
                     </li>
-                    <li>・保守・更新（月1回までの軽微修正）：5,000 円〜／月</li>
-                    <li>・CMS 導入（WordPress 等）：+ 5〜10 万円</li>
+                    <li>保守・更新（月1回までの軽微修正）：5,000円〜／月</li>
+                    <li>CMS導入（WordPress等）：+5〜10万円</li>
+                    <li>秘密保持契約（NDA）対応可</li>
                   </ul>
                 </div>
                 <div>
                   <h4 class="text-xl font-bold mb-4">その他の提供サービス</h4>
                   <ul class="list-disc list-inside text-stone-700 space-y-2">
                     <li>
-                      <span class="font-bold">動画制作・編集：</span>1本
-                      1〜5 万円 <br /><span class="text-xs pl-4"
+                      <span class="font-bold">動画制作・編集：</span>1本1〜5万円
+                      <br /><span class="text-xs pl-4"
                         >(インタビュー、商品紹介、SNS 用ショート動画)</span
                       >
                     </li>
@@ -485,38 +729,37 @@
         </div>
       </section>
 
-      <!-- 6. My Tools Section -->
-      <section id="tools" class="py-20 lg:py-32 bg-stone-200">
+      <!-- 6. Tools -->
+      <section
+        id="tools"
+        class="py-20 lg:py-32 bg-stone-200 scroll-mt-16 md:scroll-mt-20"
+      >
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-stone-900">制作環境について</h2>
           </div>
           <div class="max-w-3xl mx-auto text-center">
             <p class="text-lg text-stone-700 mb-12">
-              目的や規模に応じて最適なツールを選び、依頼者が扱いやすい形で納品します。<br />
-              Adobe 製品・無料ツールのどちらにも対応でき、必要に応じて有料ソフトの導入も可能です。<br />
-              コストは抑えつつも、品質・納品後の使いやすさを両立します。
+              目的や規模に応じて最適なツールを選び、扱いやすい形で納品します。<br />
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
               <div class="text-center">
                 <div class="text-4xl">🎨</div>
                 <p class="mt-2 font-bold">Canva / Figma</p>
-                <p class="text-sm text-stone-600">
-                  バナー制作、LPレイアウト、共有しやすいデザインデータ
-                </p>
+                <p class="text-sm text-stone-600">共有しやすいデザインデータ</p>
               </div>
               <div class="text-center">
                 <div class="text-4xl">🎬</div>
                 <p class="mt-2 font-bold">
-                  DaVinci Resolve / Adobe Premiere Pro（要相談）
+                  Adobe Premiere Pro / DaVinci Resolve
                 </p>
-                <p class="text-sm text-stone-600">SNS動画〜本格的編集まで</p>
+                <p class="text-sm text-stone-600">SNS動画から本格的編集まで</p>
               </div>
               <div class="text-center">
                 <div class="text-4xl">💻</div>
-                <p class="mt-2 font-bold">VS Code</p>
+                <p class="mt-mu2 font-bold">Visual Studio Code</p>
                 <p class="text-sm text-stone-600">
-                  効率的で保守性の高い HTML / CSS / JS コーディング（Git 対応可）
+                  効率的で保守性の高いコーディング
                 </p>
               </div>
             </div>
@@ -524,64 +767,76 @@
         </div>
       </section>
 
-      <!-- Contact Section -->
-      <section id="contact" class="py-20 lg:py-32">
+      <!-- 7. Contact -->
+      <section id="contact" class="py-20 lg:py-32 scroll-mt-16 md:scroll-mt-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 class="text-3xl font-bold text-stone-900">お問い合わせ</h2>
           <p class="mt-4 max-w-2xl mx-auto text-lg text-stone-600">
-            ご相談・ご依頼・ご質問など、お気軽にご連絡ください。<br />
+            ご相談・ご質問など、お気軽にお問い合わせください。<br />
             通常は 24 時間以内に返信します（最大 3 営業日以内）。
+          </p>
+          <p class="mt-2 max-w-2xl mx-auto text-sm text-stone-500">
+            お支払いは請求書（銀行振込）に対応しています。適格請求書（インボイス）の発行も可能です。
           </p>
           <div class="mt-8">
             <a
               href="mailto:h.syousuke.0224@gmail.com"
               class="bg-accent text-white font-bold py-4 px-10 rounded-lg text-xl hover:bg-amber-700 transition-transform transform hover:scale-105 inline-block"
             >
-              メールで相談する
+              ご連絡はこちら
             </a>
-            <p class="text-xs text-stone-500 mt-2">※メールソフトが起動します</p>
           </div>
         </div>
       </section>
     </main>
 
-    <footer class="bg-stone-800 text-stone-300 py-8">
+    <footer class="bg-stone-800 text-stone-300 py-6">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <p class="text-sm">&copy; 2025 Daisuke Takaku. All Rights Reserved.</p>
+        <p class="text-sm">&copy; 2025 Daisuke Takatsu. All Rights Reserved.</p>
       </div>
     </footer>
 
-    <!-- Modal Structure -->
-    <div id="modal-container" class="fixed inset-0 z-50 hidden">
-      <!-- Twitch Project Modal -->
+    <!-- Modal -->
+    <div id="modal-container" class="fixed inset-0 z-[200] hidden">
       <div
         id="twitchProject-modal"
         class="modal hidden fixed inset-0 flex items-center justify-center p-4 modal-backdrop"
       >
         <div
-          class="modal-content bg-stone-100 rounded-lg shadow-2xl w-full max-w-3xl overflow-y-auto"
+          class="modal-content bg-stone-100 rounded-lg shadow-2xl w-full max-w-3xl overflow-y-auto max-h-[calc(100dvh-2rem)] md:max-h-[85dvh]"
           onclick="event.stopPropagation()"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="twitchProject-title"
         >
           <div class="p-6 md:p-8 relative">
             <button
+              type="button"
               onclick="closeModal()"
               class="absolute top-4 right-4 text-stone-500 hover:text-stone-800 text-3xl font-bold"
+              aria-label="閉じる"
             >
               &times;
             </button>
-            <h3 class="text-2xl font-bold text-stone-900 mb-4 pr-8">
+            <h3
+              id="twitchProject-title"
+              class="text-2xl font-bold text-stone-900 mb-4 pr-8"
+            >
               海外向けインタビュー配信企画
             </h3>
 
             <img
               src="assets/images/visual.png"
               alt="プロジェクトビジュアル"
-              class="w-full h-auto object-cover rounded-md mb-6 max-h-[30vh]"
+              class="w-full object-cover rounded-md mb-6 max-h-[30vh]"
+              style="aspect-ratio: 16/9"
+              loading="lazy"
+              decoding="async"
               onerror="this.onerror=null;this.src='https://placehold.co/800x450/3b82f6/ffffff?text=Project+Visual';"
             />
 
             <div class="space-y-8 text-stone-800">
-              <div>
+              <div class="section">
                 <h4
                   class="text-lg font-bold mb-2 border-b-2 border-amber-500 pb-1"
                 >
@@ -592,7 +847,7 @@
                 </p>
               </div>
 
-              <div>
+              <div class="section">
                 <h4
                   class="text-lg font-bold mb-2 border-b-2 border-amber-500 pb-1"
                 >
@@ -614,7 +869,7 @@
                 </ul>
               </div>
 
-              <div>
+              <div class="section">
                 <h4
                   class="text-lg font-bold mb-2 border-b-2 border-amber-500 pb-1"
                 >
@@ -636,19 +891,20 @@
                     <span class="font-semibold"
                       >ミニマルな配信体制の構築：</span
                     >
-                    iPhoneと小型マイクのみで完結する撮影体制を設計。機動性を確保しつつ、視聴に耐えうるクオリティを担保し、企画実施のハードルを低減。
+                    iPhoneと小型マイクのみで完結する撮影体制を設計。機動性を確保しつつ、視聴に耐えうるクオリティを担保。
                   </li>
                   <li>
                     <span class="font-semibold">視聴者への配慮と最適化：</span>
-                    サムネイルや配信タイトルには英語を併記し、海外の視聴者が検索しやすく、内容を直感的に理解できるよう工夫。ターゲット層がアクティブな時間帯の配信や、プラットフォームのアルゴリズムを意識したタグ設計など、より多くの人に届けるための分析と最適化を実施。
+                    サムネイルや配信タイトルには英語を併記し、検索・理解しやすく最適化。
                   </li>
                   <li class="mt-4">
                     <span class="font-semibold">「視聴体験」の設計：</span>
-                    単に撮影するだけでなく、カメラやマイクの向き、出演者の視線の動き、背景に映り込む街の様子まで含めて「視聴者がその場にいるような感覚」を味わえるよう、事前に撮影構成をシミュレーション。視聴者にとって最も没入感の高い映像表現を追求。
+                    カメラやマイクの向き、出演者の視線、背景の街の様子まで設計し、没入感を高める。
                   </li>
                 </ul>
               </div>
-              <div class="mt-8 text-center">
+
+              <div class="section mt-8 text-center">
                 <a
                   href="#"
                   target="_blank"
@@ -685,45 +941,158 @@
           </div>
         </div>
       </div>
+      <div
+        id="asurionProject-modal"
+        class="modal hidden fixed inset-0 flex items-center justify-center p-4 modal-backdrop"
+      >
+        <div
+          class="modal-content bg-stone-100 rounded-lg shadow-2xl w-full max-w-3xl overflow-y-auto max-h-[calc(100dvh-2rem)] md:max-h-[85dvh]"
+          onclick="event.stopPropagation()"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="asurionProject-title"
+        >
+          <div class="p-6 md:p-8 relative">
+            <button
+              type="button"
+              onclick="closeModal()"
+              class="absolute top-4 right-4 text-stone-500 hover:text-stone-800 text-3xl font-bold"
+              aria-label="閉じる"
+            >
+              &times;
+            </button>
+            <h3
+              id="asurionProject-title"
+              class="text-2xl font-bold text-stone-900 mb-4 pr-8"
+            >
+              テクニカルサポートのナレッジ化・運用改善
+            </h3>
+
+            <img
+              src="https://placehold.co/800x450/0ea5e9/ffffff?text=Knowledge+Base"
+              alt="ナレッジ基盤のビジュアル（ダミー）"
+              class="w-full object-cover rounded-md mb-6 max-h-[30vh]"
+              style="aspect-ratio: 16/9"
+              loading="lazy"
+              decoding="async"
+            />
+
+            <div class="space-y-8 text-stone-800">
+              <div class="section">
+                <h4
+                  class="text-lg font-bold mb-2 border-b-2 border-amber-500 pb-1"
+                >
+                  ■ 概要
+                </h4>
+                <p class="text-sm leading-relaxed">
+                  コールセンター／オンラインサポートにおける一次解決率向上を目的に、散在していた手順・FAQ・トラブルシュート情報をナレッジ記事として体系化。テンプレート化・タグ設計・検索性改善を通じて、誰でも迷わず使えるナレッジ基盤を構築（社名等は非公開）。
+                </p>
+              </div>
+
+              <div class="section">
+                <h4
+                  class="text-lg font-bold mb-2 border-b-2 border-amber-500 pb-1"
+                >
+                  ■ 担当と役割
+                </h4>
+                <ul
+                  class="list-disc list-inside text-sm leading-relaxed space-y-1"
+                >
+                  <li>現場での検証・再現テスト／原因切り分け</li>
+                  <li>手順の標準化・記事テンプレート作成</li>
+                  <li>ライティング・校正・レビュー運用の整備</li>
+                  <li>検索キーワード・タグ設計／分類体系の見直し</li>
+                </ul>
+              </div>
+
+              <div class="section">
+                <h4
+                  class="text-lg font-bold mb-2 border-b-2 border-amber-500 pb-1"
+                >
+                  ■ 対応領域（例）
+                </h4>
+                <p class="text-sm leading-relaxed">
+                  パソコン、スマートフォン、周辺機器、ネットワーク機器、スマートデバイス（
+                  IoT
+                  含む）、プリンター、テレビ、各種映像配信サービスなど、幅広い
+                  IT／IoT 関連製品に関するナレッジ作成・整理・運用。
+                </p>
+              </div>
+
+              <div class="section">
+                <h4
+                  class="text-lg font-bold mb-2 border-b-2 border-amber-500 pb-1"
+                >
+                  ■ 体制・使用ツール
+                </h4>
+                <ul
+                  class="list-disc list-inside text-sm leading-relaxed space-y-1"
+                >
+                  <li>制作環境は自由選択、複数ツールを併用</li>
+                  <li>社内ナレッジ基盤（名称非公開）で公開・検索・更新</li>
+                  <li>画面キャプチャ／簡易図解を併用し、誤解を防止</li>
+                </ul>
+              </div>
+
+              <div class="section">
+                <h4
+                  class="text-lg font-bold mb-2 border-b-2 border-amber-500 pb-1"
+                >
+                  ■ 成果・効果（定量指標は社外非公開）
+                </h4>
+                <ul
+                  class="list-disc list-inside text-sm leading-relaxed space-y-1"
+                >
+                  <li>
+                    新人でも迷いにくい「一問一答＋手順」フォーマットの確立
+                  </li>
+                  <li>タグ・キーワード整理により記事到達が高速化</li>
+                  <li>
+                    KPI
+                    設定はなしだが、応対時間のばらつき減少・再問い合わせ低減などの現場実感を獲得
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- 必要最小のJS（メニュー・スムーススクロール・モーダル） -->
     <script>
       const mobileMenuButton = document.getElementById("mobile-menu-button");
       const mobileMenu = document.getElementById("mobile-menu");
       const header = document.getElementById("header");
 
       mobileMenuButton.addEventListener("click", () => {
+        const expanded =
+          mobileMenuButton.getAttribute("aria-expanded") === "true";
+        mobileMenuButton.setAttribute("aria-expanded", String(!expanded));
         mobileMenu.classList.toggle("hidden");
       });
 
-      document
-        .querySelectorAll("#mobile-menu a, #header nav a")
-        .forEach((anchor) => {
-          anchor.addEventListener("click", function (e) {
-            if (this.getAttribute("href").startsWith("#")) {
-              e.preventDefault();
-              const targetId = this.getAttribute("href");
-              const targetElement = document.querySelector(targetId);
-              if (targetElement) {
-                const headerOffset = header.offsetHeight;
-                const elementPosition =
-                  targetElement.getBoundingClientRect().top;
-                const offsetPosition =
-                  elementPosition + window.pageYOffset - headerOffset;
+      // アンカー遷移後、URLの #… を消して次回リロード時のジャンプを防ぐ（ネイティブスクロールはそのまま）
+      window.addEventListener("hashchange", () => {
+        if (location.hash) {
+          // 位置は維持しつつ、履歴は増やさずにハッシュだけ除去
+          history.replaceState(null, "", location.pathname + location.search);
+        }
+      });
 
-                window.scrollTo({
-                  top: offsetPosition,
-                  behavior: "smooth",
-                });
-              }
-              if (!mobileMenu.classList.contains("hidden")) {
-                mobileMenu.classList.add("hidden");
-              }
-            }
-          });
-        });
+      // モバイルメニュー：アンカークリック時は閉じる（遷移はネイティブのまま）
+      document.addEventListener("click", (e) => {
+        const link = e.target.closest('a[href^="#"]');
+        if (!link) return;
+        if (!mobileMenu.classList.contains("hidden")) {
+          mobileMenu.classList.add("hidden");
+          mobileMenuButton.setAttribute("aria-expanded", "false");
+        }
+      });
 
       const modalContainer = document.getElementById("modal-container");
+      let activeModal = null;
+      let previousFocus = null;
 
       function openModal(modalId) {
         modalContainer.classList.remove("hidden");
@@ -731,6 +1100,23 @@
         modal.classList.remove("hidden");
         document.body.style.overflow = "hidden";
 
+        // focus management
+        activeModal = modal;
+        previousFocus = document.activeElement;
+
+        // Move focus to the close button (or first focusable)
+        const closeBtn = modal.querySelector('button[aria-label="閉じる"]');
+        const firstFocusable =
+          closeBtn ||
+          modal.querySelector(
+            'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+        if (firstFocusable) {
+          // Defer to ensure element is visible
+          setTimeout(() => firstFocusable.focus(), 0);
+        }
+
+        // Backdrop click closes
         modalContainer.addEventListener("click", closeModal, { once: true });
       }
 
@@ -740,7 +1126,53 @@
           .querySelectorAll(".modal")
           .forEach((m) => m.classList.add("hidden"));
         document.body.style.overflow = "auto";
+
+        // restore focus
+        if (previousFocus && typeof previousFocus.focus === "function") {
+          previousFocus.focus();
+        }
+        activeModal = null;
+        previousFocus = null;
       }
+
+      function getFocusableElements(container) {
+        if (!container) return [];
+        const selectors = [
+          "a[href]",
+          "area[href]",
+          "button:not([disabled])",
+          'input:not([disabled]):not([type="hidden"])',
+          "select:not([disabled])",
+          "textarea:not([disabled])",
+          '[tabindex]:not([tabindex="-1"])',
+        ].join(",");
+        return Array.from(container.querySelectorAll(selectors)).filter(
+          (el) => el.offsetParent !== null || el === document.activeElement
+        );
+      }
+
+      // Trap Tab within active modal
+      document.addEventListener("keydown", (e) => {
+        if (!activeModal || e.key !== "Tab") return;
+
+        const focusables = getFocusableElements(activeModal);
+        if (focusables.length === 0) return;
+
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            last.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === last) {
+            first.focus();
+            e.preventDefault();
+          }
+        }
+      });
 
       document.addEventListener("keydown", (e) => {
         if (
